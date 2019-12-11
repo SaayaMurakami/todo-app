@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Button from '@material-ui/core/Button';
+
 
 interface PersonProps {
     name: string
@@ -25,8 +27,8 @@ const Person: React.FC<PersonProps> = (props) => {
             {props.name}
             {age}歳
             {height}cm
-            <button onClick= {ageButtonClick}>年齢++</button>
-            <button onClick= {heightButtonClick}>身長++</button>
+            <Button variant="contained" color="primary" onClick= {ageButtonClick}>年齢++</Button>
+            <Button variant="contained" color="primary" onClick= {heightButtonClick}>身長++</Button>
         </div>
     )
 }
