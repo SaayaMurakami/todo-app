@@ -1,30 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
-import Person from './Person';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
+import { ITask } from './TaskModel';
+import Input from './Input';
+import TaskList from './TaskList';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    '& > *': {
-      margin: theme.spacing(1),
-    },
     backgroundColor: '#CCCCFF'
   },
 }));
 
-const App: React.FC = () => {
+const tasks:Array<ITask> = [
+  {
+    title: '牛乳を買う',
+    completed: false,
+    deleted: false
+  },
+  {
+    title: '洗濯する',
+    completed: false,
+    deleted: false
+  },
+  {
+    title: '掃除する',
+    completed: false,
+    deleted: false
+  }
+];
+
+const App: React.FC = (props) => {
   const classes = useStyles();
+  
+  const [taskList, setTaskList] = React.useState(tasks);
+  console.log(taskList);
+
+  const addTask = (inputTask: ITask) => {
+    setTaskList(taskList.concat([inputTask]));
+  };
 
   return (
     <div className={classes.root}>
-        <Fab color="primary" aria-label="add">
-        <AddIcon />
-        </Fab>
-        <Person name={"のぐりん"} age={28} height={167}/>
-        <Person name={"ぷるぷる"} age={21} height={153}/>
+      <p>TODOアプリ</p>
+      <p>タスクを追加してください</p>
+      <Input addTask={addTask}/>
+      <TaskList taskList={taskList}/>
     </div>
   );
 }
