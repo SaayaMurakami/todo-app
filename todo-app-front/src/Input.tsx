@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, TextField } from '@material-ui/core';
 import { ITask } from './TaskModel';
 
@@ -26,7 +26,7 @@ const Input: React.FC<InputProps> = (props) => {
 
     return ( 
         <div>
-            <p><TextField id="standard-basic" label="Standard" onChange={changeInput}/>
+            <p><TextField id="standard-basic" label="Todo" onChange={changeInput}/>
             <Button variant="contained" onClick={clickCreateButton}>追加</Button></p>
         </div>
     )

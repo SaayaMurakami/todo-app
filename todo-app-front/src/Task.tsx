@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ITask } from './TaskModel';
 import { Checkbox, makeStyles, Button } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
+
 
 const useStyles = makeStyles(theme => ({
     checkedTask: {
@@ -11,36 +15,44 @@ const useStyles = makeStyles(theme => ({
   }));
 
 interface TaskProps {
-    task: ITask,
+  task: ITask,
+  updateTask: (currentTask: ITask, updateTask: ITask) => void
+  deleteTask: (targetTask: ITask) => void
 }
 
 const Task: React.FC<TaskProps> = (props) => {
     const classes = useStyles();
 
     const clickCheckButton = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setCompleted(event.target.checked);
+      const updateTask: ITask = {
+        title: props.task.title,
+        completed: event.target.checked,
+        deleted: props.task.deleted,
+        estimateDate: null
+      };
+      props.updateTask(props.task, updateTask);
     };
 
     const clickDeleteButton = (event: React.MouseEvent<HTMLButtonElement>) => {
-      setDeleted(true);
+
+      props.deleteTask(props.task);
     };
-
-    const [name, setName] = React.useState(props.task.title);
-    const [completed, setCompleted] = React.useState(props.task.completed);
-    const [deleted, setDeleted] = React.useState(props.task.deleted);
-
+   
     return (
       <div>
-        <div className={completed ? classes.checkedTask : classes.uncheckedTask} style={{display: 'inline'}}>
+        <div className={props.task.completed ? classes.checkedTask : classes.uncheckedTask} style={{display: 'inline'}}>
             <Checkbox
-            checked={completed}
+            checked={props.task.completed}
             onChange={clickCheckButton}
-            value="primary"
             inputProps={{ 'aria-label': 'primary checkbox' }}
             />
-            {name}
+            {props.task.title}
         </div>
-        <Button variant="contained" onClick={clickDeleteButton}>削除</Button>
+        <Tooltip title="Delete">
+        <IconButton aria-label="delete" onClick={clickDeleteButton}>
+          <DeleteIcon />
+        </IconButton>
+        </Tooltip>
       </div>
     )
 }

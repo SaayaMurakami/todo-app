@@ -7,8 +7,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    backgroundColor: '#CCCCFF'
-  },
+    height: '100vh',
+    backgroundColor: '#CCCCFF',
+    textAlign: 'center'
+  }
 }));
 
 const tasks:Array<ITask> = [
@@ -39,12 +41,27 @@ const App: React.FC = (props) => {
     setTaskList(taskList.concat([inputTask]));
   };
 
+
+  const updateTask = (currentTask: ITask, updateTask: ITask) => {
+    const taskListCopy = taskList.slice();
+    const index = taskList.indexOf(currentTask);
+    taskListCopy[index] = updateTask;
+    setTaskList(taskListCopy);
+  };
+
+  const deleteTask = (targetTask: ITask) => {
+    const taskListCopy = taskList.slice();
+    const index = taskList.indexOf(targetTask);
+    taskListCopy.splice( index, 1 );
+    setTaskList(taskListCopy);
+  };
+
   return (
     <div className={classes.root}>
       <p>TODOアプリ</p>
       <p>タスクを追加してください</p>
       <Input addTask={addTask}/>
-      <TaskList taskList={taskList}/>
+      <TaskList taskList={taskList} updateTask={updateTask} deleteTask={deleteTask}/>
     </div>
   );
 }
